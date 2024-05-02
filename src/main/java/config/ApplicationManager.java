@@ -9,6 +9,9 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import pages.AlertsPage;
+import pages.HomePage;
+import pages.LeftSideMenu;
 
 import java.time.Duration;
 
@@ -21,7 +24,8 @@ public class ApplicationManager {
     public ApplicationManager(String browser) {
         this.browser = browser;
     }
-    public  void init() {
+
+    public  WebDriver init() {
         if (browser.equals("chrome")) {
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.addArguments("--lang=en");
@@ -31,12 +35,12 @@ public class ApplicationManager {
             FirefoxOptions firefoxOptions = new FirefoxOptions();
             WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver(firefoxOptions);
-        } else if (browser.equals("edge")){
+        } else if (browser.equals("edge")) {
             EdgeOptions edgeOptions = new EdgeOptions();
             WebDriverManager.edgedriver().setup();
             driver = new EdgeDriver(edgeOptions);
-        }else if (browser != null && browser != "chrome"
-        && browser != "firefox" && browser != "edge"){
+        } else if (browser != null && browser != "chrome"
+                && browser != "firefox" && browser != "edge") {
             throw new IllegalArgumentException("browser entered not correct");
         }
         // общие настройки
@@ -44,7 +48,7 @@ public class ApplicationManager {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
         driver.navigate().to("https://demoqa.com/");
-
+        return driver;
 
     }
 
