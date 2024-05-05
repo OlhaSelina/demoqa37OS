@@ -13,9 +13,15 @@ public class LeftSideMenu extends BasePage{
     WebElement btnAlerts;
 
     @FindBy(xpath = "//span[contains(text(),'Browser Windows')]")
-    WebElement btnOpenWindows;
+    WebElement btnOpenWindowsPage;
     @FindBy(xpath = "//span[contains(text(),'Select Menu')]")
     WebElement btnSelectMenu;
+    @FindBy(xpath = "//span[.='Droppable']")
+    WebElement droppable;
+    @FindBy(xpath = "//span[text()='Practice Form']")
+    WebElement btnPracticeForm;
+
+
     public AlertsPage clickOnAlerts(){
        clickWithJsScroll(btnAlerts, 0, 200);
         return  new AlertsPage(driver);
@@ -23,7 +29,7 @@ public class LeftSideMenu extends BasePage{
 
 
     public BrowserWindowsPage clickOnWindows() {
-        clickWithJsScroll(btnOpenWindows, 0,200);
+        clickWithJsScroll(btnOpenWindowsPage, 0,200);
         return new BrowserWindowsPage(driver);
     }
 
@@ -32,4 +38,13 @@ public class LeftSideMenu extends BasePage{
         return new SelectMenuPage(driver);
     }
 
+    public DroppablePage clickOnDroppable() {
+        clickWithJsScroll(droppable, 0, 450);
+        return new DroppablePage(driver);
+    }
+
+    public PracticeFormPage clickPracticeForm() {
+        clickBase(btnPracticeForm);
+        return new PracticeFormPage(driver);
+    }
 }

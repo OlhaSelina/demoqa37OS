@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -9,12 +10,12 @@ import org.slf4j.LoggerFactory;
 
 public abstract class BasePage {
     WebDriver driver;
-
     JavascriptExecutor js; // для скрола на странице
     static Logger logger = LoggerFactory.getLogger(BasePage.class);
 
     public BasePage(WebDriver driver){
         this.driver = driver;
+        // with chain and @FindBy
         PageFactory.initElements(driver, this);
         js = (JavascriptExecutor) driver;
     }
@@ -23,17 +24,21 @@ public abstract class BasePage {
         element.click();
     }
 
-    public void clickWithJsScroll(WebElement element, int x, int y){
+    public void clickWithJsScroll(WebElement element, int x, int y) {
+        jsScroll(x, y);
+        clickBase(element);
+    }
+
+    protected void jsScroll(int x, int y) {
         js.executeScript("window.scrollBy(" + x + "," + y + ")");
-        clickBase(element); // проскролить, а потом кликнуть на  елемент
     }
     public void typeText(WebElement element, String text){
         element.click();
         element.clear();
-        element.sendKeys();
+        element.sendKeys(text);
     }
     public String getTextBase(WebElement element) {
-        return element.getText().trim();
+                return element.getText().trim();
     }
     public void pause(int time){
         try {
@@ -53,5 +58,31 @@ public abstract class BasePage {
             return false;
         }
     }
+    protected Keys getKeyForOSCommandOrControl() {
+        String os = System.getProperty("os.name");
+        System.out.println("my os: " + os);
+        if(os.startsWith("Mac")) {
+            return Keys.COMMAND;
+        } else if(os.startsWith("Win")) {
+            return Keys.CONTROL;
+        }
+        return Keys.CONTROL;
+    }
+    protected String getAttributeBase(WebElement el, String attributeName) {
+         return el.getAttribute(attributeName);
+    }
 
+    public void hideIFrames() {
+        hideFooter();
+        hideBanner();
+    }
+
+    private void hideBanner() {
+                js.executeScript("document.getElementById('fixedban').style.display='none';");
+    }
+
+    private void hideFooter() {
+        js.executeScript("document.querySelector('footer').style.display='none';");
+
+    }
 }

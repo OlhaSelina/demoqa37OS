@@ -25,7 +25,7 @@ public class BrowserWindowsTests extends BaseTest{
  @AfterMethod
  public void afterMethodPostConditions(){
         new  SamplePage(driver).closeCurrentTab()
-                .switchToBrowserWindowsPage(0).pause(5000);
+                .switchToBrowserWindowsPage(0);
       //  new SamplePage(driver).switchToBrowserWindowsPage(0);
  }
     @Test
